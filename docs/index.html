@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>title</title>
+    <!--<link rel="stylesheet" type="text/css" href="style.css">-->
+		<style type="text/css">
+		</style>
+    <!--<script type="text/javascript" src="script.js"></script>-->
+    <script type="text/javascript">
+	voltage_table = {
+		"5": {voltage:5,rpu:null,rpd:0},
+		"9": {voltage:9,rpu:512,rpd:102},
+		"12": {voltage:12,rpu:512,rpd:242},
+		"15": {voltage:15,rpu:512,rpd:512},
+		"19": {voltage:19,rpu:512,rpd:103},
+		"20": {voltage:20,rpu:0,rpd:null}
+	};
+	current_table = {
+		"0": {current:0,rpu_c:null,rpd_c:0,rpu_f:null,rpd_f:0},
+		"0.25": {current:0.25,rpu_c:null,rpd_c:0,rpu_f:512,rpd_f:102},
+		"0.5": {current:0.5,rpu_c:null,rpd_c:0,rpu_f:512,rpd_f:242},
+		"0.75": {current:0.75,rpu_c:null,rpd_c:0,rpu_f:512,rpd_f:512},
+		"0.9": {current:0.9,rpu_c:null,rpd_c:0,rpu_f:0,rpd_f:null},
+		"1": {current:1,rpu_c:512,rpd_c:102,rpu_f:null,rpd_f:0},
+		"1.25": {current:1.25,rpu_c:512,rpd_c:102,rpu_f:512,rpd_f:102},
+		"1.5": {current:1.5,rpu_c:512,rpd_c:102,rpu_f:512,rpd_f:242},
+		"1.75": {current:1.75,rpu_c:512,rpd_c:102,rpu_f:512,rpd_f:512},
+		"1.9": {current:1.9,rpu_c:512,rpd_c:102,rpu_f:0,rpd_f:null},
+		"2": {current:2,rpu_c:512,rpd_c:242,rpu_f:null,rpd_f:0},
+		"2.25": {current:2.25,rpu_c:512,rpd_c:242,rpu_f:512,rpd_f:102},
+		"2.5": {current:2.5,rpu_c:512,rpd_c:242,rpu_f:512,rpd_f:242},
+		"2.75": {current:2.75,rpu_c:512,rpd_c:242,rpu_f:512,rpd_f:512},
+		"2.9": {current:2.9,rpu_c:512,rpd_c:242,rpu_f:0,rpd_f:null},
+		"3": {current:3,rpu_c:512,rpd_c:512,rpu_f:null,rpd_f:0},
+		"3.25": {current:3.25,rpu_c:512,rpd_c:512,rpu_f:512,rpd_f:102},
+		"3.5": {current:3.5,rpu_c:512,rpd_c:512,rpu_f:512,rpd_f:242},
+		"3.75": {current:3.75,rpu_c:512,rpd_c:512,rpu_f:512,rpd_f:512},
+		"3.9": {current:3.9,rpu_c:512,rpd_c:512,rpu_f:0,rpd_f:null},
+		"4": {current:4,rpu_c:512,rpd_c:103,rpu_f:null,rpd_f:0},
+		"4.25": {current:4.25,rpu_c:512,rpd_c:103,rpu_f:512,rpd_f:102},
+		"4.5": {current:4.5,rpu_c:512,rpd_c:103,rpu_f:512,rpd_f:242},
+		"4.75": {current:4.75,rpu_c:512,rpd_c:103,rpu_f:512,rpd_f:512},
+		"4.9": {current:4.9,rpu_c:512,rpd_c:103,rpu_f:0,rpd_f:null},
+		"5": {current:5,rpu_c:0,rpd_c:null,rpu_f:null,rpd_f:0},
+		"5.25": {current:5.25,rpu_c:0,rpd_c:null,rpu_f:512,rpd_f:102},
+		"5.5": {current:5.5,rpu_c:0,rpd_c:null,rpu_f:512,rpd_f:242},
+		"5.75": {current:5.75,rpu_c:0,rpd_c:null,rpu_f:512,rpd_f:512},
+		"5.9": {current:5.9,rpu_c:0,rpd_c:null,rpu_f:0,rpd_f:null}
+	};
+	
+	rval_table = {
+		0: "0",
+		102: "1k",
+		242: "2.4k",
+		512: "5.1k",
+		103: "10k"
+	};
+
+	function draw_resistors() {
+		var vmin = document.getElementById("vmin").value;	
+		var vmax = document.getElementById("vmax").value;	
+		var current = document.getElementById("current").value;
+
+		if (Number(vmin) > Number(vmax)) {
+			console.log("Invalid configuration. Vmin > Vmax.");
+		}
+		
+		var rvals = [
+			(vmin in voltage_table) ? voltage_table[vmin]["rpu"] : null,
+			(vmin in voltage_table) ? voltage_table[vmin]["rpd"] : null,
+			(vmax in voltage_table) ? voltage_table[vmax]["rpu"] : null,
+			(vmax in voltage_table) ? voltage_table[vmax]["rpd"] : null,
+			(current in current_table) ? current_table[current]["rpu_c"] : null,
+			(current in current_table) ? current_table[current]["rpd_c"] : null,
+			(current in current_table) ? current_table[current]["rpu_f"] : null,
+			(current in current_table) ? current_table[current]["rpd_f"] : null
+		];
+
+		scale = document.getElementById("base_container").offsetWidth/document.getElementById("base_img").naturalWidth;
+		for(r_index = 1; r_index <= 8; r_index++) {
+			resistor = "r" + r_index + "_img";
+			resistor_value = "r" + r_index + "_val";
+			if (rvals[r_index-1] == null) {
+				document.getElementById(resistor).src = "img/r_none.png"
+				document.getElementById(resistor_value).innerHTML = "None" 
+			} else {
+				document.getElementById(resistor).src = "img/r_" + rvals[r_index - 1] + ".png"
+				document.getElementById(resistor).width = scale * document.getElementById("r_dummy").naturalWidth;
+				document.getElementById(resistor_value).innerHTML = rval_table[rvals[r_index - 1]]; 
+			}
+		}
+	}
+
+	window.addEventListener("resize", draw_resistors);
+	window.addEventListener("load", draw_resistors);
+  </script>
+  </head>
+  <body>
+	<div align="center">
+		Select voltage and current limits:
+		<br />
+		<br />
+		<form>
+<label for="vmin">Vmin</label>
+<select name="vmin" id="vmin" onchange="draw_resistors()">
+	<option value="" selected disabled hidden>Select</option>
+	<option value="5">5 V</option>
+	<option value="9">9 V</option>
+	<option value="12">12 V</option>
+	<option value="15">15 V</option>
+	<option value="19">19 V</option>
+	<option value="20">20 V</option>
+</select>
+
+<label for="vmax">Vmax</label>
+<select name="vmax" id="vmax" onchange="draw_resistors()">
+	<option value="" selected disabled hidden>Select</option>
+	<option value="5">5 V</option>
+	<option value="9">9 V</option>
+	<option value="12">12 V</option>
+	<option value="15">15 V</option>
+	<option value="19">19 V</option>
+	<option value="20">20 V</option>
+</select>
+
+<label for="current">Current</label>
+<select name="current" id="current" onchange="draw_resistors()">
+	<option value="" selected disabled hidden>Select</option>
+	<option value="0">0 A</option>
+	<option value="0.25">0.25 A</option>
+	<option value="0.5">0.5 A</option>
+	<option value="0.75">0.75 A</option>
+	<option value="0.9">0.9 A</option>
+	<option value="1">1 A</option>
+	<option value="1.25">1.25 A</option>
+	<option value="1.5">1.5 A</option>
+	<option value="1.75">1.75 A</option>
+	<option value="1.9">1.9 A</option>
+	<option value="2">2 A</option>
+	<option value="2.25">2.25 A</option>
+	<option value="2.5">2.5 A</option>
+	<option value="2.75">2.75 A</option>
+	<option value="2.9">2.9 A</option>
+	<option value="3">3 A</option>
+	<option value="3.25">3.25 A</option>
+	<option value="3.5">3.5 A</option>
+	<option value="3.75">3.75 A</option>
+	<option value="3.9">3.9 A</option>
+	<option value="4">4 A</option>
+	<option value="4.25">4.25 A</option>
+	<option value="4.5">4.5 A</option>
+	<option value="4.75">4.75 A</option>
+	<option value="4.9">4.9 A</option>
+	<option value="5">5 A</option>
+	<option value="5.25">5.25 A</option>
+	<option value="5.5">5.5 A</option>
+	<option value="5.75">5.75 A</option>
+	<option value="5.9">5.9 A</option>
+</select>
+		
+		</form></div>
+		<br />
+		<div style="position: relative;" id="base_container">
+			<img src="board_base.png" style="width: 100%; height: auto;" id="base_img" />
+			<img src="img/r_0.png" style="position: absolute; visibility:hidden;" id="r_dummy" />
+			<img src="img/r_none.png" style="position: absolute; bottom: 8.9%; left: 26.8%" id="r1_img" />
+			<img src="img/r_none.png" style="position: absolute; bottom: 8.9%; left: 32.3%" id="r2_img" />
+			<img src="img/r_none.png" style="position: absolute; bottom: 8.9%; left: 37.6%" id="r3_img" />
+			<img src="img/r_none.png" style="position: absolute; bottom: 8.9%; left: 43.2%" id="r4_img" />
+			<img src="img/r_none.png" style="position: absolute; bottom: 8.9%; left: 48.6%" id="r5_img" />
+			<img src="img/r_none.png" style="position: absolute; bottom: 8.9%; left: 54.2%" id="r6_img" />
+			<img src="img/r_none.png" style="position: absolute; bottom: 8.9%; left: 59.7%" id="r7_img" />
+			<img src="img/r_none.png" style="position: absolute; bottom: 8.9%; left: 65.2%" id="r8_img" />
+		</div>
+		<div align="center">
+			<table>
+				<tr>
+					<th>Resistor</th>
+					<th>Value</th>
+				</tr>
+				<tr>
+					<th>R1</th>
+					<th id="r1_val"></th>
+				</tr>
+				<tr>
+					<th>R2</th>
+					<th id="r2_val"></th>
+				</tr>
+				<tr>
+					<th>R3</th>
+					<th id="r3_val"></th>
+				</tr>
+				<tr>
+					<th>R4</th>
+					<th id="r4_val"></th>
+				</tr>
+				<tr>
+					<th>R5</th>
+					<th id="r5_val"></th>
+				</tr>
+				<tr>
+					<th>R6</th>
+					<th id="r6_val"></th>
+				</tr>
+				<tr>
+					<th>R7</th>
+					<th id="r7_val"></th>
+				</tr>
+				<tr>
+					<th>R8</th>
+					<th id="r8_val"></th>
+				</tr>
+			</table>
+		</div>
+  </body>
+</html>
+
