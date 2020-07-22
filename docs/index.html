@@ -8,19 +8,39 @@
   <style>
   body {
     background-color: #101010;
+    font-family: Arial;
+    font-size: 1.5em;
   }
   h1 {
     color: #fefefe;
     font-family: Arial;
-    font-size: 100px;
+    font-size: 3.5em;
     text-align: center;
-    margin-bottom: -22px;
+    margin-bottom: -0.225em;
   }
   table {
-    font-size: 20px;
+    font-size: 1em;
   }
   table tr:first-child th {
     border-bottom: 1px solid black;
+    padding-bottom: 0.5vw;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+  }
+  select {
+    font-size:1em;
+  }
+  label {
+    font-weight: bold;
+  }
+
+  #error {
+    background-color: #e00000;
+    margin-top: 1vw;
+    padding: 1vw;
+    font-size: 1.5em;
+    font-weight: bold;
+    display: none;
   }
   </style>
   <script type="text/javascript">
@@ -80,6 +100,9 @@
 
                 if (Number(vmin) > Number(vmax)) {
                         console.log("Invalid configuration. Vmin > Vmax.");
+                    document.getElementById("error").style.display = "block";
+                } else {
+                    document.getElementById("error").style.display = "none";
                 }
                 
                 var rvals = [
@@ -114,153 +137,164 @@
 </head>
 <body>
   <div>
-    <h1>USB-C-Power Calculator</h1>
+    <h1>USB-C-POWER CALCULATOR</h1>
     <div style="padding: 40px; max-width: 1280px; text-align: center; background-color: #fefefe; margin: auto;">
-      <div style="display: flex;">
-        <div style="flex:1; text-align:right; font-size: 20px;">
+      <div style="text-align:center; font-size: 1em; margin-bottom: 1vw;">
+        <p>Use this calculator to get the correct resistor values for your CYPD3177 based "<a href="https://github.com/alvarop/usb_c_power">usb-c-power</a>" board.</p>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: center;">
+        <div style="flex:1; text-align:right; margin-right:1vw;">
           Select desired voltage and current limits:
         </div>
-        <div style="flex:1; text-align:left;margin-left:20px;">
+        <div style="flex:1; text-align:left; margin-right: 6vw;">
           <form>
-            <label for="vmin">Vmin</label> <select name="vmin" id="vmin" onchange="draw_resistors()">
-              <option value="" selected disabled hidden="">
-                Select
-              </option>
-              <option value="5">
-                5 V
-              </option>
-              <option value="9">
-                9 V
-              </option>
-              <option value="12">
-                12 V
-              </option>
-              <option value="15">
-                15 V
-              </option>
-              <option value="19">
-                19 V
-              </option>
-              <option value="20">
-                20 V
-              </option>
-            </select> <label for="vmax">Vmax</label> <select name="vmax" id="vmax" onchange="draw_resistors()">
-              <option value="" selected disabled hidden="">
-                Select
-              </option>
-              <option value="5">
-                5 V
-              </option>
-              <option value="9">
-                9 V
-              </option>
-              <option value="12">
-                12 V
-              </option>
-              <option value="15">
-                15 V
-              </option>
-              <option value="19">
-                19 V
-              </option>
-              <option value="20">
-                20 V
-              </option>
-            </select> <label for="current">Current</label> <select name="current" id="current" onchange="draw_resistors()">
-              <option value="" selected disabled hidden="">
-                Select
-              </option>
-              <option value="0">
-                0 A
-              </option>
-              <option value="0.25">
-                0.25 A
-              </option>
-              <option value="0.5">
-                0.5 A
-              </option>
-              <option value="0.75">
-                0.75 A
-              </option>
-              <option value="0.9">
-                0.9 A
-              </option>
-              <option value="1">
-                1 A
-              </option>
-              <option value="1.25">
-                1.25 A
-              </option>
-              <option value="1.5">
-                1.5 A
-              </option>
-              <option value="1.75">
-                1.75 A
-              </option>
-              <option value="1.9">
-                1.9 A
-              </option>
-              <option value="2">
-                2 A
-              </option>
-              <option value="2.25">
-                2.25 A
-              </option>
-              <option value="2.5">
-                2.5 A
-              </option>
-              <option value="2.75">
-                2.75 A
-              </option>
-              <option value="2.9">
-                2.9 A
-              </option>
-              <option value="3">
-                3 A
-              </option>
-              <option value="3.25">
-                3.25 A
-              </option>
-              <option value="3.5">
-                3.5 A
-              </option>
-              <option value="3.75">
-                3.75 A
-              </option>
-              <option value="3.9">
-                3.9 A
-              </option>
-              <option value="4">
-                4 A
-              </option>
-              <option value="4.25">
-                4.25 A
-              </option>
-              <option value="4.5">
-                4.5 A
-              </option>
-              <option value="4.75">
-                4.75 A
-              </option>
-              <option value="4.9">
-                4.9 A
-              </option>
-              <option value="5">
-                5 A
-              </option>
-              <option value="5.25">
-                5.25 A
-              </option>
-              <option value="5.5">
-                5.5 A
-              </option>
-              <option value="5.75">
-                5.75 A
-              </option>
-              <option value="5.9">
-                5.9 A
-              </option>
-            </select>
+            <div style="display: inline-block;">
+              <label for="vmin">Vmin</label> <select name="vmin" id="vmin" onchange="draw_resistors()">
+                <option value="" selected disabled hidden="">
+                  Select
+                </option>
+                <option value="5">
+                  5 V
+                </option>
+                <option value="9">
+                  9 V
+                </option>
+                <option value="12">
+                  12 V
+                </option>
+                <option value="15">
+                  15 V
+                </option>
+                <option value="19">
+                  19 V
+                </option>
+                <option value="20">
+                  20 V
+                </option>
+              </select>
+            </div>
+            <div style="display: inline-block;">
+              <label for="vmax">Vmax</label> <select name="vmax" id="vmax" onchange="draw_resistors()">
+                <option value="" selected disabled hidden="">
+                  Select
+                </option>
+                <option value="5">
+                  5 V
+                </option>
+                <option value="9">
+                  9 V
+                </option>
+                <option value="12">
+                  12 V
+                </option>
+                <option value="15">
+                  15 V
+                </option>
+                <option value="19">
+                  19 V
+                </option>
+                <option value="20">
+                  20 V
+                </option>
+              </select>
+            </div>
+            <div style="display: inline-block;">
+              <label for="current">Current</label> <select name="current" id="current" onchange="draw_resistors()">
+                <option value="" selected disabled hidden="">
+                  Select
+                </option>
+                <option value="0">
+                  0 A
+                </option>
+                <option value="0.25">
+                  0.25 A
+                </option>
+                <option value="0.5">
+                  0.5 A
+                </option>
+                <option value="0.75">
+                  0.75 A
+                </option>
+                <option value="0.9">
+                  0.9 A
+                </option>
+                <option value="1">
+                  1 A
+                </option>
+                <option value="1.25">
+                  1.25 A
+                </option>
+                <option value="1.5">
+                  1.5 A
+                </option>
+                <option value="1.75">
+                  1.75 A
+                </option>
+                <option value="1.9">
+                  1.9 A
+                </option>
+                <option value="2">
+                  2 A
+                </option>
+                <option value="2.25">
+                  2.25 A
+                </option>
+                <option value="2.5">
+                  2.5 A
+                </option>
+                <option value="2.75">
+                  2.75 A
+                </option>
+                <option value="2.9">
+                  2.9 A
+                </option>
+                <option value="3">
+                  3 A
+                </option>
+                <option value="3.25">
+                  3.25 A
+                </option>
+                <option value="3.5">
+                  3.5 A
+                </option>
+                <option value="3.75">
+                  3.75 A
+                </option>
+                <option value="3.9">
+                  3.9 A
+                </option>
+                <option value="4">
+                  4 A
+                </option>
+                <option value="4.25">
+                  4.25 A
+                </option>
+                <option value="4.5">
+                  4.5 A
+                </option>
+                <option value="4.75">
+                  4.75 A
+                </option>
+                <option value="4.9">
+                  4.9 A
+                </option>
+                <option value="5">
+                  5 A
+                </option>
+                <option value="5.25">
+                  5.25 A
+                </option>
+                <option value="5.5">
+                  5.5 A
+                </option>
+                <option value="5.75">
+                  5.75 A
+                </option>
+                <option value="5.9">
+                  5.9 A
+                </option>
+              </select>
+            </div>
           </form>
         </div>
       </div>
@@ -290,6 +324,9 @@
             <td id="r8_val"></td>
           </tr>
         </table>
+      </div>
+      <div id="error">
+        ERROR: Invalid configuration. Vmin &gt; Vmax.
       </div>
     </div>
   </div>
