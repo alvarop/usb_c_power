@@ -4,8 +4,22 @@
   <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
   <title>USB-C-Power Calculator</title>
+  <style>
+  body {
+    background-color: #101010;
+  }
+  h1 {
+    color: #fefefe;
+    font-family: Arial;
+    font-size: 100px;
+    text-align: center;
+    margin-bottom: -22px;
+  }
+  table {
+    font-size: 20px;
+  }
+  </style>
   <script type="text/javascript">
         voltage_table = {
                 "5": {voltage:5,rpu:null,rpd:0},
@@ -96,21 +110,16 @@
   </script>
 </head>
 <body>
-  <div class="columns">
-    <div class="column is-narrow"></div>
-    <div class="column">
-      <h1 class="is-size-1" style="text-align:center;">USB-C-Power Calculator</h1>
-    </div>
-    <div class="column is-narrow"></div>
-  </div>
-  <div align="center">
-    <p class="is-size-4">Select desired voltage and current limits below:</p>
-    <form>
-      <div class="columns">
-        <div class="column"></div>
-        <div class="column is-narrow">
-          <div class="field">
-            <label for="vmin" class="label is-size-5">Vmin</label> <span class="select"><select name="vmin" id="vmin" onchange="draw_resistors()">
+  <div>
+    <h1>USB-C-Power Calculator</h1>
+    <div style="padding: 30px; max-width: 1280px; text-align: center; background-color: #fefefe; margin: auto;">
+      <div style="display: flex;">
+        <div style="flex:1; text-align:right; font-size: 20px;">
+          Select desired voltage and current limits:
+        </div>
+        <div style="flex:1; text-align:left;margin-left:20px;">
+          <form>
+            <label for="vmin">Vmin</label> <select name="vmin" id="vmin" onchange="draw_resistors()">
               <option value="" selected disabled hidden="">
                 Select
               </option>
@@ -132,12 +141,7 @@
               <option value="20">
                 20 V
               </option>
-            </select></span>
-          </div>
-        </div>
-        <div class="column is-narrow">
-          <div class="field">
-            <label for="vmax" class="label is-size-5">Vmax</label> <span class="select"><select name="vmax" id="vmax" onchange="draw_resistors()">
+            </select> <label for="vmax">Vmax</label> <select name="vmax" id="vmax" onchange="draw_resistors()">
               <option value="" selected disabled hidden="">
                 Select
               </option>
@@ -159,12 +163,7 @@
               <option value="20">
                 20 V
               </option>
-            </select></span>
-          </div>
-        </div>
-        <div class="column is-narrow">
-          <div class="field">
-            <label for="current" class="label is-size-5">Current</label> <span class="select"><select name="current" id="current" onchange="draw_resistors()">
+            </select> <label for="current">Current</label> <select name="current" id="current" onchange="draw_resistors()">
               <option value="" selected disabled hidden="">
                 Select
               </option>
@@ -258,49 +257,38 @@
               <option value="5.9">
                 5.9 A
               </option>
-            </select></span>
-          </div>
+            </select>
+          </form>
         </div>
-        <div class="column"></div>
       </div>
-    </form>
-  </div><br>
-  <div class="columns">
-    <div class="column is-narrow"></div>
-    <div class="column">
-      <div style="position: relative; max-width: 1280px; margin: 0 auto;" id="base_container"><img src="img/board_base.png" style="width: 100%; height: auto;" id="base_img" alt="Base Board"><img src="img/r_0.png" style="position: absolute; visibility:hidden;" id="r_dummy" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 26.8%" id="r1_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 32.3%" id="r2_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 37.6%" id="r3_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 43.2%" id="r4_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 48.6%" id="r5_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 54.2%" id="r6_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 59.7%" id="r7_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 65.2%" id="r8_img" alt="Resistor"></div>
+      <div style="position: relative; margin: 0 auto; margin-top: 25px; margin-bottom: 25px;" id="base_container"><img src="img/board_base.png" style="width: 100%; height: auto;" id="base_img" alt="Base Board"><img src="img/r_0.png" style="position: absolute; visibility:hidden;" id="r_dummy" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 26.8%" id="r1_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 32.3%" id="r2_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 37.6%" id="r3_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 43.2%" id="r4_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 48.6%" id="r5_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 54.2%" id="r6_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 59.7%" id="r7_img" alt="Resistor"><img src="img/r_none.png" style="position: absolute; bottom: 10.0%; left: 65.2%" id="r8_img" alt="Resistor"></div>
+      <div>
+        <table class="table is-bordered is-striped" style="margin: auto;">
+          <tr>
+            <th style="text-align: center">Resistor</th>
+            <th style="text-align: center">R1</th>
+            <th style="text-align: center">R2</th>
+            <th style="text-align: center">R3</th>
+            <th style="text-align: center">R4</th>
+            <th style="text-align: center">R5</th>
+            <th style="text-align: center">R6</th>
+            <th style="text-align: center">R7</th>
+            <th style="text-align: center">R8</th>
+          </tr>
+          <tr>
+            <th>Value (Ω)</th>
+            <td id="r1_val"></td>
+            <td id="r2_val"></td>
+            <td id="r3_val"></td>
+            <td id="r4_val"></td>
+            <td id="r5_val"></td>
+            <td id="r6_val"></td>
+            <td id="r7_val"></td>
+            <td id="r8_val"></td>
+          </tr>
+        </table>
+      </div>
     </div>
-    <div class="column is-narrow"></div>
-  </div>
-  <div class="columns">
-    <div class="column"></div>
-    <div class="column is-narrow">
-      <table class="table is-bordered is-striped">
-        <tr>
-          <th style="text-align: center">Resistor</th>
-          <th style="text-align: center">R1</th>
-          <th style="text-align: center">R2</th>
-          <th style="text-align: center">R3</th>
-          <th style="text-align: center">R4</th>
-          <th style="text-align: center">R5</th>
-          <th style="text-align: center">R6</th>
-          <th style="text-align: center">R7</th>
-          <th style="text-align: center">R8</th>
-        </tr>
-        <tr>
-          <th>Value (Ω)</th>
-          <th id="r1_val"></th>
-          <th id="r2_val"></th>
-          <th id="r3_val"></th>
-          <th id="r4_val"></th>
-          <th id="r5_val"></th>
-          <th id="r6_val"></th>
-          <th id="r7_val"></th>
-          <th id="r8_val"></th>
-        </tr>
-      </table>
-    </div>
-    <div class="column"></div>
   </div>
 </body>
 </html>
